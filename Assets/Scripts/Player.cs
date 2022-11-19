@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         velocity = transform.right;
         velocity *= speed;
         flapVelocity = transform.up * thrust;
@@ -26,14 +27,14 @@ public class Player : MonoBehaviour
     void Update()
     {
         if (Input.GetButtonDown("Jump")) flap = true ;
-        Debug.Log(rb2d.velocity);
+        
+        animator.SetBool("Flapping", rb2d.velocity.y > 0);
     }
     private void FixedUpdate()
     {
         velocity.y = rb2d.velocity.y;
         if (flap)
         {
-            Debug.Log("Jumppppp");
             Flap();
             flap = false;
         }
