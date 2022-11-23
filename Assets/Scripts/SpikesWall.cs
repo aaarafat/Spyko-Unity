@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
+
 public class SpikesWall : MonoBehaviour
 {
     [SerializeField]
@@ -16,7 +16,7 @@ public class SpikesWall : MonoBehaviour
     [SerializeField] float gap = 2;
 
     Vector2 rotator = new Vector2(0, 180);
-    bool _myTurn;
+    bool _wasMyTurn;
     [SerializeField] WallPosition _wallPosition;
     List<int> _currentActive;
     private enum WallPosition
@@ -34,15 +34,15 @@ public class SpikesWall : MonoBehaviour
     private void GameManager_OnGameStateChange(GameManager.GameState state)
     {
         
-        if (_myTurn)
+        if (_wasMyTurn)
         {
             Activate();
-            _myTurn = false;
+            _wasMyTurn = false;
         }
-        else if (isItMyTurn(state))
+        else if (IsItMyTurn(state))
         {
             GenerateRandomList();
-            _myTurn = true;
+            _wasMyTurn = true;
             Activate();
         }
     }
@@ -50,6 +50,8 @@ public class SpikesWall : MonoBehaviour
     private void GenerateRandomList()
     {
         _currentActive.Clear();
+        gap = 2 + Random.Range(-.5f, .5f);
+        UpdatePosition();
         for (int i = 0; i < GameManager.Instance.NumberOfActiveSpikes; i++)
         {
             int rand = Random.Range(0, 8);
@@ -70,6 +72,7 @@ public class SpikesWall : MonoBehaviour
     private void OnValidate()
     {
         UpdatePosition();
+        Debug.Log("Validate");
     }
     // Update is called once per frame
     void Update()
@@ -79,12 +82,15 @@ public class SpikesWall : MonoBehaviour
 
     void UpdatePosition()
     {
+        
         float start = 12.5f - offset;
         Vector2 position = new Vector2(transform.position.x, start);
-        foreach (GameObject spike in spikes)
-        { 
-            spike.transform.position = position;
+        foreach (GameObject spikeObject in spikes)
+        {
+            Spike spike = spikeObject.GetComponent<Spike>();
+            spike.UpdatePosition(position);
             position.y -= gap;
+            Debug.Log("current y is = " + spike.transform.position);
         }
     }
 
@@ -99,7 +105,7 @@ public class SpikesWall : MonoBehaviour
     }
 
     
-    bool isItMyTurn(GameManager.GameState state)
+    bool IsItMyTurn(GameManager.GameState state)
     {
         if (_wallPosition == WallPosition.Left && state == GameManager.GameState.LeftWall) { return true; }
         else if (_wallPosition == WallPosition.Right && state == GameManager.GameState.RightWall) { return true; }

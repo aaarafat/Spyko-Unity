@@ -63,9 +63,9 @@ MonoBehaviour:
   - {fileID: 1051198625896334968}
   - {fileID: 1051198627163593141}
   - {fileID: 1051198625456536870}
-  flip: 0
   offset: 4.5
   gap: 2
+  _wallPosition: 0
 --- !u!1001 &1733345113409599588
 PrefabInstance:
   m_ObjectHideFlags: 0

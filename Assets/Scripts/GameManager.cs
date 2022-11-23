@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
     }
     public void HandleTouchWall()
     {
-        NumberOfActiveSpikes = _score / 5 + 1;
+        NumberOfActiveSpikes = Mathf.Min(_score / 5 + 1,8);
         _score++;
         Debug.Log("Wall Touched, Active: " + NumberOfActiveSpikes+ " --- Score : "+ _score);
 

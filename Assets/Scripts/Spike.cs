@@ -13,8 +13,8 @@ public class Spike : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        targetPosition = new Vector2(transform.position.x + transform.right.x, transform.position.y);
         intialPosition = transform.position;
+        targetPosition = new Vector2(transform.position.x + transform.right.x, transform.position.y);
         currPosition = intialPosition;
     }
     void Start()
@@ -32,5 +32,13 @@ public class Spike : MonoBehaviour
     {
         currPosition = (currPosition != targetPosition) ? targetPosition : intialPosition;
         _curr = 0;
+    }
+
+    public void UpdatePosition(Vector2 position)
+    {
+        transform.position = position;
+        intialPosition = transform.position;
+        targetPosition = new Vector2(transform.position.x + transform.right.x, transform.position.y);
+        currPosition = intialPosition;
     }
 }
