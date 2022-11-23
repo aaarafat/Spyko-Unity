@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        NumberOfActiveSpikes = 2;
+        NumberOfActiveSpikes = 0;
         Instance = this;
         
     }
@@ -54,5 +54,13 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         
+    }
+    public void HandleTouchWall()
+    {
+        NumberOfActiveSpikes = _score / 5 + 1;
+        _score++;
+        Debug.Log("Wall Touched, Active: " + NumberOfActiveSpikes+ " --- Score : "+ _score);
+
+
     }
 }

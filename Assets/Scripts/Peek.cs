@@ -18,6 +18,7 @@ public class Peek : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        GameManager.Instance.HandleTouchWall();
         GameManager.GameState gameState = Mathf.Sign(collision.transform.position.x) > 0 ? GameManager.GameState.LeftWall : GameManager.GameState.RightWall;
         GameManager.Instance.UpdateGameState(gameState);
     }
