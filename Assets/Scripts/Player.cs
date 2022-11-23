@@ -33,24 +33,19 @@ public class Player : MonoBehaviour
 
     private void GameManager_OnGameStateChange(GameManager.GameState state)
     {
-       Debug.LogWarning("From Player : " + _orientation);
         switch (state)
         {
             case GameManager.GameState.Menu:
                 break;
             case GameManager.GameState.RightWall:
-                Debug.Log("should be facing Right");
                 if (_orientation != Orientation.Right)
                 {
-                    Debug.Log("is set to face right");
                     Flip();
                 }
                 break;
             case GameManager.GameState.LeftWall:
-                Debug.Log("should be facing Left");
                 if (_orientation != Orientation.Left)
                 {
-                    Debug.Log("is set to face left");
                     Flip();
                 }
                 break;

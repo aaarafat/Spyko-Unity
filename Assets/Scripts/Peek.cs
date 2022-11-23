@@ -18,9 +18,6 @@ public class Peek : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //Debug.Log("Peek entered");
-        //player.Flip();
-        // Debug.Log(Mathf.Sign(collision.transform.position.x));
         GameManager.GameState gameState = Mathf.Sign(collision.transform.position.x) > 0 ? GameManager.GameState.LeftWall : GameManager.GameState.RightWall;
         GameManager.Instance.UpdateGameState(gameState);
     }

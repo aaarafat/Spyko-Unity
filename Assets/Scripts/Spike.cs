@@ -26,14 +26,11 @@ public class Spike : MonoBehaviour
     void Update()
     {
         _curr = Mathf.Lerp(_curr, 1, Time.fixedDeltaTime * speed) ;
-       
         transform.position = Vector3.Lerp(transform.position, currPosition, _curr);
     }
     public void Activate()
     {
         currPosition = (currPosition != targetPosition) ? targetPosition : intialPosition;
         _curr = 0;
-
-
     }
 }

@@ -26,7 +26,6 @@ public class GameManager : MonoBehaviour
     public void UpdateGameState(GameState newState)
     {
         State = newState;
-        Debug.Log("From Game manager" + newState);
         switch (newState)
         {
             case GameState.Menu:
