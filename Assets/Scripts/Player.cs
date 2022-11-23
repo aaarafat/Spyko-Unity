@@ -14,17 +14,55 @@ public class Player : MonoBehaviour
     Vector2 flapVelocity;
     Vector3 rotator = new Vector3(0, 180, 0);
     // Start is called before the first frame update
-    void Start()
+    Orientation _orientation;
+    public enum Orientation
+    {
+        Left, 
+        Right
+    }
+    void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         velocity = transform.right;
         velocity *= speed;
         flapVelocity = transform.up * thrust;
+        _orientation = Orientation.Right;
+        GameManager.OnGameStateChange += GameManager_OnGameStateChange;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void GameManager_OnGameStateChange(GameManager.GameState state)
+    {
+       Debug.LogWarning("From Player : " + _orientation);
+        switch (state)
+        {
+            case GameManager.GameState.Menu:
+                break;
+            case GameManager.GameState.RightWall:
+                Debug.Log("should be facing Right");
+                if (_orientation != Orientation.Right)
+                {
+                    Debug.Log("is set to face right");
+                    Flip();
+                }
+                break;
+            case GameManager.GameState.LeftWall:
+                Debug.Log("should be facing Left");
+                if (_orientation != Orientation.Left)
+                {
+                    Debug.Log("is set to face left");
+                    Flip();
+                }
+                break;
+            case GameManager.GameState.Death:
+                break;
+            default:
+                break;
+        }
+    }
+
+        // Update is called once per frame
+        void Update()
     {
         if (Input.GetButtonDown("Jump")) flap = true ;
         
@@ -55,9 +93,12 @@ public class Player : MonoBehaviour
         transform.Rotate(rotator);
         velocity = transform.right;
         velocity *= speed;
+        if (_orientation == Orientation.Left) _orientation = Orientation.Right;
+        else _orientation = Orientation.Left;
     }
     void Flap()
     {
         velocity.y = maxThrustSpeed;
     }
+    
 }
