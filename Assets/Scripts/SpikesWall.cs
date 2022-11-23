@@ -9,16 +9,16 @@ public class SpikesWall : MonoBehaviour
     private List<GameObject> spikes;
     // Start is called before the first frame update
 
-    [SerializeField]  bool flip;
+
     [Range(0,6)]
     [SerializeField] float offset = 4.5f;
     [Range(1, 3)]
     [SerializeField] float gap = 2;
-    bool _isFlipped;
+
     Vector2 rotator = new Vector2(0, 180);
     bool _myTurn;
     [SerializeField] WallPosition _wallPosition;
-
+    List<int> _currentActive;
     private enum WallPosition
     {
         Left,
@@ -27,20 +27,38 @@ public class SpikesWall : MonoBehaviour
 
     private void Awake()
     {
+        _currentActive = new List<int>();
         GameManager.OnGameStateChange += GameManager_OnGameStateChange;
     }
 
     private void GameManager_OnGameStateChange(GameManager.GameState state)
     {
-        if(_myTurn )
+        
+        if (_myTurn)
         {
-            Flip();
+            Activate();
             _myTurn = false;
         }
-        else if(isItMyTurn(state))
+        else if (isItMyTurn(state))
         {
+            GenerateRandomList();
             _myTurn = true;
-            Flip();
+            Activate();
+        }
+    }
+
+    private void GenerateRandomList()
+    {
+        _currentActive.Clear();
+        for (int i = 0; i < GameManager.Instance.NumberOfActiveSpikes; i++)
+        {
+            int rand = Random.Range(0, 8);
+            while (_currentActive.Contains(rand))
+            {
+                rand = Random.Range(0, 8);
+            }
+            _currentActive.Add(rand);
+
         }
     }
 
@@ -56,11 +74,7 @@ public class SpikesWall : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(_isFlipped != flip)
-        {
-            Flip();
-            _isFlipped = flip;
-        }
+
     }
 
     void UpdatePosition()
@@ -73,19 +87,12 @@ public class SpikesWall : MonoBehaviour
             position.y -= gap;
         }
     }
-    void Flip()
+
+    void Activate()
     {
-        foreach (GameObject spikeObject in spikes)
+        foreach (int i in _currentActive)
         {
-            
-            Spike spike = spikeObject.GetComponent<Spike>();
-            spike.Activate();
-        }
-    }
-    void Test()
-    {
-        foreach (GameObject spikeObject in spikes)
-        {
+            GameObject spikeObject = spikes[i];
             Spike spike =  spikeObject.GetComponent<Spike>();
             spike.Activate();
         }

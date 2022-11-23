@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public static event Action<GameState> OnGameStateChange;
     int _score;
     int _coins;
+    public int NumberOfActiveSpikes;
     public enum GameState
     {
         Menu,
@@ -20,12 +21,14 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        NumberOfActiveSpikes = 2;
         Instance = this;
         
     }
     public void UpdateGameState(GameState newState)
     {
         State = newState;
+        //NumberOfActiveSpikes = Mathf.Min(8, NumberOfActiveSpikes + 1);
         switch (newState)
         {
             case GameState.Menu:
