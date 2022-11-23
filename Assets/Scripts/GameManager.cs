@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
             case GameState.LeftWall:
                 break;
             case GameState.Death:
+                HandleDeath();
                 break;
             default:
                 break;
@@ -54,6 +55,10 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void HandleDeath() {
+        Debug.Log("GameManger Death");
     }
     public void HandleTouchWall()
     {

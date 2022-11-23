@@ -5,10 +5,17 @@ using UnityEngine;
 public class Peek : MonoBehaviour
 {
     // Start is called before the first frame update
-    Player player;
-    void Start()
+    void Awake()
     {
-        player = GetComponentInParent<Player>();
+        GameManager.OnGameStateChange += GameManager_OnGameStateChange;
+    }
+
+    private void GameManager_OnGameStateChange(GameManager.GameState state)
+    {
+        if(state == GameManager.GameState.Death)
+        {
+            GetComponent<Collider2D>().isTrigger = false;
+        }
     }
 
     // Update is called once per frame

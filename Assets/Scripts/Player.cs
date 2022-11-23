@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,9 +10,10 @@ public class Player : MonoBehaviour
     [SerializeField] float speed;
     [SerializeField] float thrust;
     [SerializeField] float maxThrustSpeed;
+    [SerializeField] Vector2 DeathKick;
+    bool _isAlive; 
     bool flap;
     Vector2 velocity;
-    Vector2 flapVelocity;
     Vector3 rotator = new Vector3(0, 180, 0);
     // Start is called before the first frame update
     Orientation _orientation;
@@ -22,13 +24,15 @@ public class Player : MonoBehaviour
     }
     void Awake()
     {
+        DeathKick = new Vector2(15, 15);
+        _isAlive = true;
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         velocity = transform.right;
         velocity *= speed;
-        flapVelocity = transform.up * thrust;
         _orientation = Orientation.Right;
         GameManager.OnGameStateChange += GameManager_OnGameStateChange;
+  
     }
 
     private void GameManager_OnGameStateChange(GameManager.GameState state)
@@ -50,21 +54,37 @@ public class Player : MonoBehaviour
                 }
                 break;
             case GameManager.GameState.Death:
+                HandleDeath();
                 break;
             default:
                 break;
         }
     }
 
-        // Update is called once per frame
-        void Update()
+    private void HandleDeath()
     {
+        Debug.Log("Player Died");
+        animator.SetBool("Dead", true);
+        float sign = Mathf.Sign(transform.position.x) > 0 ? -1 : 1;
+        DeathKick.x *= sign;
+        rb2d.freezeRotation = false;
+        rb2d.AddTorque(100f * sign * -1);
+        rb2d.AddForce(DeathKick, ForceMode2D.Impulse);
+        //rb2d.velocity = DeathKick;
+        _isAlive = false;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (!_isAlive) return;
         if (Input.GetButtonDown("Jump")) flap = true ;
         
         animator.SetBool("Flapping", rb2d.velocity.y > 0);
     }
     private void FixedUpdate()
     {
+        if (!_isAlive) return;
         velocity.y = rb2d.velocity.y;
         if (flap)
         {

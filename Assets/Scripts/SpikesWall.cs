@@ -33,8 +33,8 @@ public class SpikesWall : MonoBehaviour
 
     private void GameManager_OnGameStateChange(GameManager.GameState state)
     {
-        
-        if (_wasMyTurn)
+        if (state != GameManager.GameState.LeftWall && state != GameManager.GameState.RightWall) return;
+            if (_wasMyTurn)
         {
             Activate();
             _wasMyTurn = false;
@@ -50,7 +50,6 @@ public class SpikesWall : MonoBehaviour
     private void GenerateRandomList()
     {
         _currentActive.Clear();
-        gap = 2 + Random.Range(-.5f, .5f);
         UpdatePosition();
         for (int i = 0; i < GameManager.Instance.NumberOfActiveSpikes; i++)
         {
@@ -89,8 +88,7 @@ public class SpikesWall : MonoBehaviour
         {
             Spike spike = spikeObject.GetComponent<Spike>();
             spike.UpdatePosition(position);
-            position.y -= gap;
-            Debug.Log("current y is = " + spike.transform.position);
+            position.y -= gap + Random.Range(-.5f, .5f);
         }
     }
 
