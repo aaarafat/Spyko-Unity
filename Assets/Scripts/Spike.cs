@@ -8,7 +8,6 @@ public class Spike : MonoBehaviour
     Vector2 targetPosition;
     Vector2 intialPosition;
     Vector2 currPosition;
-    float _curr;
 
     // Start is called before the first frame update
     private void Awake()
@@ -25,13 +24,11 @@ public class Spike : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _curr = Mathf.Lerp(_curr, 1, Time.fixedDeltaTime * speed) ;
-        transform.position = Vector3.Lerp(transform.position, currPosition, _curr);
+        transform.position = Vector3.Lerp(transform.position, currPosition, Time.fixedDeltaTime);
     }
     public void Activate()
     {
         currPosition = (currPosition != targetPosition) ? targetPosition : intialPosition;
-        _curr = 0;
     }
 
     public void UpdatePosition(Vector2 position)

@@ -13,12 +13,13 @@ public class ScoreBoard : MonoBehaviour
     Color targetColor;
     int _ind;
     int _size;
+    float _alpha;
     private void Awake()
     {
         
         textMesh = GetComponentInChildren<TextMeshPro>();
         colors = GameManager.Instance.colors;
-        _sprite = GetComponent<SpriteRenderer>();
+        _sprite = GetComponentInChildren<SpriteRenderer>();
         GameManager.OnScoreUpdate += GameManager_OnScoreUpdate;
         GameManager.OnColorUpdate += GameManager_OnColorUpdate;
         GameManager.OnGameStateChange += GameManager_OnGameStateChange;
@@ -42,13 +43,15 @@ public class ScoreBoard : MonoBehaviour
     private void GameManager_OnScoreUpdate(int score)
     {
         textMesh.text = score.ToString("d2");
-        targetColor.a = 1;
+        targetColor.a = _alpha;
     }
 
     // Start is called before the first frame update
     void Start()
     {
         targetColor = _sprite.color;
+        _alpha = targetColor.a;
+        Debug.Log("start: "+ targetColor);
         targetColor.a = 0;
         _sprite.color = targetColor;
         textMesh.text = "00";
@@ -67,4 +70,5 @@ public class ScoreBoard : MonoBehaviour
        textMesh.color = Color.Lerp(textMesh.color, colors[_ind], Time.fixedDeltaTime);
         _sprite.color = Color.Lerp(_sprite.color, targetColor, Time.fixedDeltaTime);
     }
+
 }
