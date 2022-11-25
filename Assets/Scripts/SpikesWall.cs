@@ -88,7 +88,7 @@ public class SpikesWall : MonoBehaviour
         {
             Spike spike = spikeObject.GetComponent<Spike>();
             spike.UpdatePosition(position);
-            position.y -= gap + Random.Range(-.5f, .5f);
+            position.y -= Mathf.Max(gap + Random.Range(-.5f, .5f),-8.5f);
         }
     }
 
