@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        UpdateGameState(GameState.LeftWall);
+        UpdateGameState(GameState.Menu);
     }
 
     // Update is called once per frame
