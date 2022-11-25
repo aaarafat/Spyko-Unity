@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     public GameState State;
     public static event Action<GameState> OnGameStateChange;
     public static event Action OnColorUpdate;
+    public static event Action<int> OnScoreUpdate;
+    [SerializeField] public  List<Color> colors;
     int _score;
     int _coins;
     public int NumberOfActiveSpikes;
@@ -65,6 +67,7 @@ public class GameManager : MonoBehaviour
     {
         NumberOfActiveSpikes = Mathf.Min(_score / 5 + 1,8);
         _score++;
+        OnScoreUpdate?.Invoke(_score);
         if (_score > 0 && _score % 5 == 0) OnColorUpdate?.Invoke();
         Debug.Log("Wall Touched, Active: " + NumberOfActiveSpikes+ " --- Score : "+ _score);
 

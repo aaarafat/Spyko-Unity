@@ -71,7 +71,6 @@ public class SpikesWall : MonoBehaviour
     private void OnValidate()
     {
         UpdatePosition();
-        Debug.Log("Validate");
     }
     // Update is called once per frame
     void Update()
