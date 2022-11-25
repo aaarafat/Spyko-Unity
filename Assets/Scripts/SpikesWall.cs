@@ -33,8 +33,8 @@ public class SpikesWall : MonoBehaviour
 
     private void GameManager_OnGameStateChange(GameManager.GameState state)
     {
-        if (state != GameManager.GameState.LeftWall && state != GameManager.GameState.RightWall) return;
-            if (_wasMyTurn)
+        if (state == GameManager.GameState.Menu ) return;
+        if (_wasMyTurn)
         {
             Activate();
             _wasMyTurn = false;

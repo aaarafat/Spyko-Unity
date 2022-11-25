@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     bool _isAlive; 
     bool flap;
     Vector2 velocity;
+    int _deathKicks;
     Vector3 rotator = new Vector3(0, 180, 0);
     // Start is called before the first frame update
     Orientation _orientation;
@@ -24,6 +25,7 @@ public class Player : MonoBehaviour
     }
     void Awake()
     {
+        _deathKicks = 3;
         DeathKick = new Vector2(15, 15);
         _isAlive = true;
         rb2d = GetComponent<Rigidbody2D>();
@@ -63,15 +65,20 @@ public class Player : MonoBehaviour
 
     private void HandleDeath()
     {
+        if (_deathKicks <= 0) return;
         Debug.Log("Player Died");
         animator.SetBool("Dead", true);
+        rb2d.velocity = Vector2.zero;
         float sign = Mathf.Sign(transform.position.x) > 0 ? -1 : 1;
+        DeathKick.y = UnityEngine.Random.Range(5f, 15f);
+        DeathKick.x = UnityEngine.Random.Range(5f, 15f);
         DeathKick.x *= sign;
         rb2d.freezeRotation = false;
-        rb2d.AddTorque(100f * sign * -1);
+        rb2d.AddTorque(UnityEngine.Random.Range(75f, 200f) * sign * -1);
         rb2d.AddForce(DeathKick, ForceMode2D.Impulse);
         //rb2d.velocity = DeathKick;
         _isAlive = false;
+        _deathKicks--;
     }
 
     // Update is called once per frame

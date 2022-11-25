@@ -41,9 +41,9 @@ public class Spike : MonoBehaviour
         targetPosition = new Vector2(transform.position.x + transform.right.x, transform.position.y);
         currPosition = intialPosition;
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (GameManager.Instance.State == GameManager.GameState.Death) return;
         GameManager.Instance.UpdateGameState(GameManager.GameState.Death);
     }
 }
