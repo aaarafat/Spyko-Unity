@@ -26,6 +26,12 @@ public class ScoreBoard : MonoBehaviour
 
     }
 
+    private void OnDestroy()
+    {
+        GameManager.OnScoreUpdate -= GameManager_OnScoreUpdate;
+        GameManager.OnColorUpdate -= GameManager_OnColorUpdate;
+        GameManager.OnGameStateChange -= GameManager_OnGameStateChange;
+    }
     private void GameManager_OnGameStateChange(GameManager.GameState state)
     {
         if (state == GameManager.GameState.Death) targetColor.a = 0; 

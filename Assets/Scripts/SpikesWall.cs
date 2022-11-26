@@ -30,7 +30,10 @@ public class SpikesWall : MonoBehaviour
         _currentActive = new List<int>();
         GameManager.OnGameStateChange += GameManager_OnGameStateChange;
     }
-
+    private void OnDestroy()
+    {
+        GameManager.OnGameStateChange -= GameManager_OnGameStateChange;
+    }
     private void GameManager_OnGameStateChange(GameManager.GameState state)
     {
         if (state == GameManager.GameState.Menu ) return;

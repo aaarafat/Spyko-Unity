@@ -44,6 +44,12 @@ TagManager:
   - name: BG
     uniqueID: 1789147301
     locked: 0
+  - name: Score
+    uniqueID: 4105202481
+    locked: 0
+  - name: Player Trail
+    uniqueID: 909333441
+    locked: 0
   - name: Player
     uniqueID: 1349041881
     locked: 0

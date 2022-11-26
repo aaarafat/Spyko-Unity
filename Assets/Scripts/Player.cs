@@ -42,6 +42,10 @@ public class Player : MonoBehaviour
   
     }
 
+    private void OnDestroy()
+    {
+        GameManager.OnGameStateChange -= GameManager_OnGameStateChange;
+    }
     private void GameManager_OnGameStateChange(GameManager.GameState state)
     {
         switch (state)

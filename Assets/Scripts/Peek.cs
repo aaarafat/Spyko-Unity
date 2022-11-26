@@ -10,6 +10,10 @@ public class Peek : MonoBehaviour
         GameManager.OnGameStateChange += GameManager_OnGameStateChange;
     }
 
+    private void OnDestroy()
+    {
+        GameManager.OnGameStateChange -= GameManager_OnGameStateChange;
+    }
     private void GameManager_OnGameStateChange(GameManager.GameState state)
     {
         if(state == GameManager.GameState.Death)

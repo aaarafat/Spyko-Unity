@@ -15,6 +15,10 @@ public class ColorChanger : MonoBehaviour
         GameManager.OnColorUpdate += GameManager_OnColorUpdate;
     }
 
+    private void OnDestroy()
+    {
+        GameManager.OnColorUpdate -= GameManager_OnColorUpdate;
+    }
     private void GameManager_OnColorUpdate()
     {
         _ind++;
