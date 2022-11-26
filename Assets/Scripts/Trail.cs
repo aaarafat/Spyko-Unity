@@ -23,6 +23,14 @@ public class Trail : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (!Emit) return;
+
+        if(_pastTime <=0)
+        {
+            _pastTime = _timeBetween;
+            GameObject gameObject = Instantiate<GameObject>(_trail,transform.position,Quaternion.identity);
+            Destroy(gameObject, .5f); 
+        }
+        _pastTime -= Time.deltaTime;
     }
 }

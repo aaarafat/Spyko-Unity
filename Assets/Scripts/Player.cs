@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     Rigidbody2D rb2d;
     Animator animator;
     SpriteRenderer sprite;
+    Trail _trail;
     Color _fade;
     [SerializeField] float speed;
     [SerializeField] float thrust;
@@ -32,6 +33,7 @@ public class Player : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
+        _trail = GetComponent<Trail>();
         rb2d.gravityScale = 0;
         velocity = transform.right;
         velocity *= speed;
@@ -97,6 +99,7 @@ public class Player : MonoBehaviour
         { 
             if (Input.GetButtonDown("Jump")) flap = true;
             animator.SetBool("Flapping", rb2d.velocity.y > 0);
+            _trail.Emit = rb2d.velocity.y > 0;
         }
     }
     private void FixedUpdate()
@@ -140,6 +143,7 @@ public class Player : MonoBehaviour
         rb2d.AddForce(DeathKick, ForceMode2D.Impulse);
         //rb2d.velocity = DeathKick;
         _isAlive = false;
+        _trail.Emit = false;
         _deathKicks--;
     }
 
