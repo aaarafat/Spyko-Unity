@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
 {
     Rigidbody2D rb2d;
     Animator animator;
+    SpriteRenderer sprite;
+    Color _fade;
     [SerializeField] float speed;
     [SerializeField] float thrust;
     [SerializeField] float maxThrustSpeed;
@@ -29,11 +31,14 @@ public class Player : MonoBehaviour
         _isAlive = true;
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
         rb2d.gravityScale = 0;
         velocity = transform.right;
         velocity *= speed;
         _orientation = Orientation.Right;
         GameManager.OnGameStateChange += GameManager_OnGameStateChange;
+        _fade = sprite.color;
+        _fade.a = 0;
   
     }
 
@@ -67,6 +72,10 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_deathKicks <= 0)
+        {
+            sprite.color = Color.Lerp(sprite.color, _fade, Time.fixedDeltaTime);
+        }
         if (!_isAlive) return;
         if(GameManager.Instance.State == GameManager.GameState.Menu)
         {
