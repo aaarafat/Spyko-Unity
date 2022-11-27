@@ -87,7 +87,7 @@ public class SpikesWall : MonoBehaviour
     void UpdatePosition()
     {
         
-        float start = 12.5f - offset + Random.Range(-.5f, .5f);
+        float start = 12.5f - offset + Random.Range(0f, .5f);
         Vector2 position = new Vector2(transform.position.x, start);
         foreach (GameObject spikeObject in spikes)
         {

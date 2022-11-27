@@ -25,7 +25,12 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         NumberOfActiveSpikes = 0;
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else Destroy(gameObject);
         
     }
     public void UpdateGameState(GameState newState)
