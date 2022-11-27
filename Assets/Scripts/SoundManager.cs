@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    public static object Instance;
+    public static SoundManager Instance;
     [SerializeField] AudioSource _effectSource;
     [SerializeField] AudioSource _MusicSource;
 
@@ -13,7 +13,7 @@ public class SoundManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
 

@@ -14,6 +14,10 @@ public class Player : MonoBehaviour
     [SerializeField] float thrust;
     [SerializeField] float maxThrustSpeed;
     [SerializeField] Vector2 DeathKick;
+    [SerializeField] AudioClip _flapAudio;
+    [SerializeField] AudioClip _loseAudio;
+    [SerializeField] AudioClip _hitAudio;
+    [SerializeField] AudioClip _pointAudio;
     bool _isAlive; 
     bool flap;
     Vector2 velocity;
@@ -100,6 +104,7 @@ public class Player : MonoBehaviour
             if (Input.GetButtonDown("Jump")) flap = true;
             animator.SetBool("Flapping", rb2d.velocity.y > 0);
             _trail.Emit = rb2d.velocity.y > 0;
+
         }
     }
     private void FixedUpdate()
@@ -109,6 +114,7 @@ public class Player : MonoBehaviour
         velocity.y = rb2d.velocity.y;
         if (flap)
         {
+            SoundManager.Instance.PlaySound(_flapAudio);
             Flap();
             flap = false;
         }
@@ -131,6 +137,8 @@ public class Player : MonoBehaviour
     private void HandleDeath()
     {
         if (_deathKicks <= 0) return;
+        SoundManager.Instance.PlaySound(_hitAudio , _deathKicks / 3.0f );
+        if(_isAlive) SoundManager.Instance.PlaySound(_loseAudio);
         Debug.Log("Player Died");
         animator.SetBool("Dead", true);
         rb2d.velocity = Vector2.zero;
@@ -147,4 +155,8 @@ public class Player : MonoBehaviour
         _deathKicks--;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        SoundManager.Instance.PlaySound(_pointAudio);
+    }
 }
