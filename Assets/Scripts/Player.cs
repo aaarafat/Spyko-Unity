@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public static event Action OnPlayerDeath;
     Rigidbody2D rb2d;
     Animator animator;
     SpriteRenderer sprite;
@@ -139,7 +140,6 @@ public class Player : MonoBehaviour
         if (_deathKicks <= 0) return;
         SoundManager.Instance.PlaySound(_hitAudio , _deathKicks / 3.0f );
         if(_isAlive) SoundManager.Instance.PlaySound(_loseAudio);
-        Debug.Log("Player Died");
         animator.SetBool("Dead", true);
         rb2d.velocity = Vector2.zero;
         float sign = Mathf.Sign(transform.position.x) > 0 ? -1 : 1;
@@ -153,6 +153,7 @@ public class Player : MonoBehaviour
         _isAlive = false;
         _trail.Emit = false;
         _deathKicks--;
+        if (_deathKicks == 0) OnPlayerDeath?.Invoke();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
