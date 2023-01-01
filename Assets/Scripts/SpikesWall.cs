@@ -66,14 +66,6 @@ public class SpikesWall : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        Debug.Log(_wallPosition + " : " + spikes.Capacity);
-        foreach (GameObject spikeObject in spikes)
-        {
-            Debug.Log(_wallPosition + " : " + spikeObject.transform.position);
-        }
-    }
     private void OnValidate()
     {
         UpdatePosition();
@@ -93,10 +85,6 @@ public class SpikesWall : MonoBehaviour
         {
             Spike spike = spikeObject.GetComponent<Spike>();
             spike.UpdatePosition(position);
-            if (position.y < -8.5) {
-                Debug.LogWarning(_wallPosition + " : " + spikeObject.transform.position + " : " + spikeObject);
-            }
-            
             position.y = Mathf.Max(position.y - (gap + Random.Range(-.5f, .5f)),-8.5f);
         }
     }

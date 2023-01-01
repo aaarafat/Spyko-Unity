@@ -41,9 +41,7 @@ public class ScoreBoard : MonoBehaviour
     {
         //throw new System.NotImplementedException();
         _ind++;
-        _ind %= _size;
-        Debug.Log(colors[_ind]);
-      
+        _ind %= _size;  
     }
 
     private void GameManager_OnScoreUpdate(int score)
@@ -57,7 +55,6 @@ public class ScoreBoard : MonoBehaviour
     {
         targetColor = _sprite.color;
         _alpha = targetColor.a;
-        Debug.Log("start: "+ targetColor);
         targetColor.a = 0;
         _sprite.color = targetColor;
         textMesh.text = "00";
