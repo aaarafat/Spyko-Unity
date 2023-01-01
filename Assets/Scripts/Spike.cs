@@ -24,7 +24,7 @@ public class Spike : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, currPosition, Time.fixedDeltaTime);
+        transform.position = Vector3.Lerp(transform.position, currPosition, Time.deltaTime * 10);
     }
     public void Activate()
     {
