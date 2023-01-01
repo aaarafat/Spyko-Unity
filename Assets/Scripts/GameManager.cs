@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public static event Action OnColorUpdate;
     public static event Action<int> OnScoreUpdate;
     [SerializeField] public  List<Color> colors;
-    int _score;
+    public int Score {  get; private set; }
     int _coins;
     public int NumberOfActiveSpikes;
     public enum GameState
@@ -66,15 +66,13 @@ public class GameManager : MonoBehaviour
     }
 
     public void HandleDeath() {
-        Debug.Log("GameManger Death");
     }
     public void HandleTouchWall()
     {
-        NumberOfActiveSpikes = Mathf.Min(_score / 5 + 1,8);
-        _score++;
-        OnScoreUpdate?.Invoke(_score);
-        if (_score > 0 && _score % 5 == 0) OnColorUpdate?.Invoke();
-        Debug.Log("Wall Touched, Active: " + NumberOfActiveSpikes+ " --- Score : "+ _score);
+        NumberOfActiveSpikes = Mathf.Min(Score / 5 + 1,8);
+        Score++;
+        OnScoreUpdate?.Invoke(Score);
+        if (Score > 0 && Score % 5 == 0) OnColorUpdate?.Invoke();
 
 
     }
